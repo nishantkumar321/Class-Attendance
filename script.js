@@ -66,7 +66,7 @@ subjects.forEach(subject => {
         Absent
       </button>
 
-      <button class="clear-btn"
+       <button class="clear-btn"
         onclick="clearSubject('${subject}')">
         Clear
       </button>
@@ -336,11 +336,34 @@ function updateSummary(){
 
 function clearSubject(subject){
 
-  attendanceData[subject] = {
-    present: 0,
-    absent: 0,
-    history: []
-  };
+  const data = attendanceData[subject];
+
+  // LAST ENTRY REMOVE
+  const lastEntry = data.history.pop();
+
+  if(lastEntry){
+
+    // CHECK PRESENT / ABSENT
+    if(lastEntry.includes("Present")){
+
+      data.present--;
+
+    }else{
+
+      data.absent--;
+
+    }
+
+    // NEGATIVE STOP
+    if(data.present < 0){
+      data.present = 0;
+    }
+
+    if(data.absent < 0){
+      data.absent = 0;
+    }
+
+  }
 
   updateSubject(subject);
 
@@ -354,11 +377,30 @@ function clearSubject(subject){
 
 function clearBiometric(){
 
-  biometric = {
-    present: 0,
-    absent: 0,
-    history: []
-  };
+  const lastEntry =
+    biometric.history.pop();
+
+  if(lastEntry){
+
+    if(lastEntry.includes("Present")){
+
+      biometric.present--;
+
+    }else{
+
+      biometric.absent--;
+
+    }
+
+    if(biometric.present < 0){
+      biometric.present = 0;
+    }
+
+    if(biometric.absent < 0){
+      biometric.absent = 0;
+    }
+
+  }
 
   updateBiometric();
 
